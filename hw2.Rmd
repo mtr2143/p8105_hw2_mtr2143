@@ -1,0 +1,21 @@
+---
+title: "Homework 2"
+author: "Matthew T. Russell"
+date: "10/9/2021"
+output: github_document
+---
+
+```{r setup, load packages include = FALSE}
+library(tidyverse)
+library(readxl)
+library(readr)
+```
+
+# Problem 1
+
+```{r}
+
+trash_data <- read_excel()
+
+```
+
