@@ -86,6 +86,7 @@ pol_months_data <- read_csv(file = "./Data/pols-month.csv") %>%
 ```
 
 ###### Reading and cleaning snp csv:
+* arrange columns so year and month are first
 
 ```{r, read and clean snp, message=FALSE}
 
@@ -101,6 +102,7 @@ snp_data <- read_csv(file = "./Data/snp.csv") %>%
 ```
 
 ###### Tidy the unemployment csv:
+* change data from 'wide' to 'long' format 
 
 ```{r, read and tidy unemployment, message=FALSE}
 unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>% 
@@ -122,9 +124,16 @@ unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>%
 
 ```{r, merge datasets, message=FALSE}
 
-pols_snp_unemp <- 
+pol_snp_unemp <- 
   left_join(pol_months_data, snp_data, by = c("year", "month")) %>% 
   left_join(unemployment_data, by = c("year", "month")) %>% 
   rename(unemp_rate = rate)
 ```
 
+###### Summary of datasets:
+
+The dataset from "pols-month" has provides information  about the number of republicans and democrats in congress as well the president's political party. The dataset from "snp" communicates the closing values of the Standard & Poor's stock market index. The dataset from "unemployment" gives the percent unemployed by month and year. After mergining "snp" and "unemployment" data into "pols-month" data, we have `r nrow(pol_snp_unemp)` observations with `r ncol(pol_months_data)` columns about national political party representation, the health of the stock market, and the unemployment percentage from `r min(pull(pol_snp_unemp, year))` to `r max(pull(pol_snp_unemp, year))`. Key variables include:
+
+* `president`: indicates whether president at that time was republican (gop) or democrat (dem)
+* `close`: closing value of Standard & Poor's stock market index at that time
+* `unemp_rate`: percent unemployed at that time
