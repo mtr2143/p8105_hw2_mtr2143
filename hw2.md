@@ -98,7 +98,7 @@ snp_data <- read_csv(file = "./Data/snp.csv") %>%
   select(-day)
 ```
 
-###### Tidy the unemployment csv:
+###### Tidying the unemployment csv:
 
 -   change data from ‘wide’ to ‘long’ format
 
@@ -143,3 +143,26 @@ percentage from 1947 to 2015. Key variables include:
 -   `close`: closing value of Standard & Poor’s stock market index at
     that time
 -   `unemp_rate`: percent unemployed at that time
+
+# Problem 3
+
+###### Reading and tidying baby names csv:
+
+``` r
+baby_names <- read_csv(file = "./Data/Popular_Baby_Names.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    across(gender:childs_first_name, str_to_lower), 
+    ethnicity = ifelse(
+      ethnicity %in% c("asian and pacific islander", "asian and paci"),
+        "aapi", ethnicity
+      ), 
+    ethnicity = ifelse(
+      ethnicity == "black non hisp", "black non hispanic", ethnicity
+      ),
+    ethnicity = ifelse(
+      ethnicity == "white non hisp", "white non hispanic", ethnicity
+      )
+    ) %>% 
+  distinct()
+```
