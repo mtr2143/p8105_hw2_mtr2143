@@ -180,7 +180,7 @@ olivia_pop <- baby_names %>%
   )
 
 library(knitr)
-kable(olivia_pop, caption = "Popularity of 'Olivia' by ethnicity from 2011 to 2016")
+kable(olivia_pop, caption = "Popularity of 'Olivia' for NYC babies by ethnicity from 2011 to 2016")
 ```
 
 | ethnicity          | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 |
@@ -190,4 +190,30 @@ kable(olivia_pop, caption = "Popularity of 'Olivia' by ethnicity from 2011 to 20
 | hispanic           |   18 |   22 |   22 |   16 |   16 |   13 |
 | white non hispanic |    2 |    4 |    1 |    1 |    1 |    1 |
 
-Popularity of ‘Olivia’ by ethnicity from 2011 to 2016
+Popularity of ‘Olivia’ for NYC babies by ethnicity from 2011 to 2016
+
+###### Creating table for most popular name for male children:
+
+``` r
+male_pop <- baby_names %>% 
+  filter(rank == 1 & gender == "male") %>% 
+  select(-c(gender, count, rank)) %>% 
+  arrange(year_of_birth) %>% 
+  mutate(childs_first_name = factor(childs_first_name)) %>% 
+  pivot_wider(
+    names_from = "year_of_birth", 
+    values_from = "childs_first_name"
+  ) %>% 
+  mutate(across(as.character(2011:2016), as.character))
+
+kable(male_pop, caption = "Most popular NYC male baby name by ethnicity from 2011 to 2016")
+```
+
+| ethnicity          | 2011    | 2012   | 2013   | 2014   | 2015   | 2016   |
+|:-------------------|:--------|:-------|:-------|:-------|:-------|:-------|
+| aapi               | ethan   | ryan   | jayden | jayden | jayden | ethan  |
+| black non hispanic | jayden  | jayden | ethan  | ethan  | noah   | noah   |
+| hispanic           | jayden  | jayden | jayden | liam   | liam   | liam   |
+| white non hispanic | michael | joseph | david  | joseph | david  | joseph |
+
+Most popular NYC male baby name by ethnicity from 2011 to 2016

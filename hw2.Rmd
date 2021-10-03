@@ -177,9 +177,29 @@ olivia_pop <- baby_names %>%
   )
 
 library(knitr)
-kable(olivia_pop, caption = "Popularity of 'Olivia' by ethnicity from 2011 to 2016")
+kable(olivia_pop, caption = "Popularity of 'Olivia' for NYC babies by ethnicity from 2011 to 2016")
 
 ```
+
+###### Creating table for most popular name for male children:
+
+```{r, popular male names}
+
+male_pop <- baby_names %>% 
+  filter(rank == 1 & gender == "male") %>% 
+  select(-c(gender, count, rank)) %>% 
+  arrange(year_of_birth) %>% 
+  mutate(childs_first_name = factor(childs_first_name)) %>% 
+  pivot_wider(
+    names_from = "year_of_birth", 
+    values_from = "childs_first_name"
+  ) %>% 
+  mutate(across(as.character(2011:2016), as.character))
+
+kable(male_pop, caption = "Most popular NYC male baby name by ethnicity from 2011 to 2016")
+
+```
+
 
 
 
