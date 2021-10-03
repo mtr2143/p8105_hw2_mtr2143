@@ -84,4 +84,14 @@ pol_months_data = read_csv(file = "./Data/pols-month.csv") %>%
 
 ```
 
+###### Reading and cleaning snp csv:
 
+```{r, read and clean snp, message=FALSE}
+
+snp_data = read_csv(file = "./Data/snp.csv") %>% 
+  separate(date, into = c("day", "month", "year"), sep = "/", convert = T) %>% 
+  mutate(month = month.name[month]) %>% 
+  select(-day) %>% 
+  relocate(year, .before = month)
+
+```
