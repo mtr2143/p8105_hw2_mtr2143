@@ -63,5 +63,25 @@ precip_18_19_data <-
 
 There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The Mr. Trash Wheel data tell us about the quantity of certain trash items such as plastic bottles, cigarette butts, glass bottles, grocery bags, chip bags, and sports balls. Meanwhile, the precipitation data tell us about the total rainfall (inches) per month for the years `r min(pull(precip_18_19_data))` and `r max(pull(precip_18_19_data))`. The median number of sports balls consumed by Mr. Trash Wheel is `r median(pull(trash_data, sports_balls))`. The total inches of rainfall in 2018 was `r sum(pull(precip_2018_data, total))`.
 
+# Problem 2
+
+###### Reading and cleaning pols-months csv:
+* clean data
+* break up variable mon into integer variables year, month, and day
+* replace month number with month name
+* create a president variable taking values gop and dem
+* remove prez_dem, prez_gop, and day variables
+
+```{r, read/clean pols-month, message=FALSE}
+
+pol_months_data = read_csv(file = "./Data/pols-month.csv") %>% 
+  separate(mon, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
+  mutate(month = month.name[month], 
+         president = prez_dem, 
+         president = factor(president, levels = c(0,1), labels = c("gop", "dem"))) %>% 
+  select(-c(prez_dem, prez_gop, day)) %>% 
+  relocate(president, .after = month)
+
+```
 
 

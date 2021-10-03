@@ -61,3 +61,23 @@ bags, chip bags, and sports balls. Meanwhile, the precipitation data
 tell us about the total rainfall (inches) per month for the years 2018
 and 2019. The median number of sports balls consumed by Mr. Trash Wheel
 is 8. The total inches of rainfall in 2018 was 70.33.
+
+# Problem 2
+
+###### Reading and cleaning pols-months csv:
+
+-   clean data
+-   break up variable mon into integer variables year, month, and day
+-   replace month number with month name
+-   create a president variable taking values gop and dem
+-   remove prez\_dem, prez\_gop, and day variables
+
+``` r
+pol_months_data = read_csv(file = "./Data/pols-month.csv") %>% 
+  separate(mon, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
+  mutate(month = month.name[month], 
+         president = prez_dem, 
+         president = factor(president, levels = c(0,1), labels = c("gop", "dem"))) %>% 
+  select(-c(prez_dem, prez_gop, day)) %>% 
+  relocate(president, .after = month)
+```
