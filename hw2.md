@@ -73,11 +73,40 @@ is 8. The total inches of rainfall in 2018 was 70.33.
 -   remove prez\_dem, prez\_gop, and day variables
 
 ``` r
-pol_months_data = read_csv(file = "./Data/pols-month.csv") %>% 
+pol_months_data <- read_csv(file = "./Data/pols-month.csv") %>% 
   separate(mon, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
   mutate(month = month.name[month], 
+         month = str_to_lower(month),
          president = prez_dem, 
          president = factor(president, levels = c(0,1), labels = c("gop", "dem"))) %>% 
   select(-c(prez_dem, prez_gop, day)) %>% 
   relocate(president, .after = month)
+```
+
+###### Reading and cleaning snp csv:
+
+``` r
+snp_data <- read_csv(file = "./Data/snp.csv") %>% 
+  separate(date, into = c("day", "month", "year"), sep = "/", convert = T) %>% 
+  mutate(month = month.name[month],
+        month = str_to_lower(month)) %>% 
+  select(-day) %>% 
+  relocate(year, .before = month)
+```
+
+###### Tidy the unemployment csv:
+
+``` r
+unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>% 
+  pivot_longer(
+    Jan:Dec, 
+    names_to = "month",
+    values_to = "rate"
+  ) %>% 
+  mutate(
+    month = match(month, month.abb), 
+    month = month.name[month], 
+    month = str_to_lower(month)
+  ) %>% 
+  janitor::clean_names()
 ```

@@ -74,9 +74,10 @@ There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in 
 
 ```{r, read/clean pols-month, message=FALSE}
 
-pol_months_data = read_csv(file = "./Data/pols-month.csv") %>% 
+pol_months_data <- read_csv(file = "./Data/pols-month.csv") %>% 
   separate(mon, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
   mutate(month = month.name[month], 
+         month = str_to_lower(month),
          president = prez_dem, 
          president = factor(president, levels = c(0,1), labels = c("gop", "dem"))) %>% 
   select(-c(prez_dem, prez_gop, day)) %>% 
@@ -88,10 +89,30 @@ pol_months_data = read_csv(file = "./Data/pols-month.csv") %>%
 
 ```{r, read and clean snp, message=FALSE}
 
-snp_data = read_csv(file = "./Data/snp.csv") %>% 
+snp_data <- read_csv(file = "./Data/snp.csv") %>% 
   separate(date, into = c("day", "month", "year"), sep = "/", convert = T) %>% 
-  mutate(month = month.name[month]) %>% 
+  mutate(month = month.name[month],
+        month = str_to_lower(month)) %>% 
   select(-day) %>% 
   relocate(year, .before = month)
 
 ```
+
+###### Tidy the unemployment csv:
+
+```{r, read and tidy unemployment, message=FALSE}
+unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>% 
+  pivot_longer(
+    Jan:Dec, 
+    names_to = "month",
+    values_to = "rate"
+  ) %>% 
+  mutate(
+    month = match(month, month.abb), 
+    month = month.name[month], 
+    month = str_to_lower(month)
+  ) %>% 
+  janitor::clean_names()
+
+```
+
