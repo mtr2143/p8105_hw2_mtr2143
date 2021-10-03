@@ -166,3 +166,28 @@ baby_names <- read_csv(file = "./Data/Popular_Baby_Names.csv") %>%
     ) %>% 
   distinct()
 ```
+
+###### Creating table for popularity of ‘Olivia’ over time:
+
+``` r
+olivia_pop <- baby_names %>% 
+  filter(childs_first_name == "olivia") %>% 
+  select(-c(gender, childs_first_name, count)) %>%
+  arrange(year_of_birth) %>% 
+  pivot_wider(
+    names_from = "year_of_birth", 
+    values_from = "rank"
+  )
+
+library(knitr)
+kable(olivia_pop, caption = "Popularity of 'Olivia' by ethnicity from 2011 to 2016")
+```
+
+| ethnicity          | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 |
+|:-------------------|-----:|-----:|-----:|-----:|-----:|-----:|
+| aapi               |    4 |    3 |    3 |    1 |    1 |    1 |
+| black non hispanic |   10 |    8 |    6 |    8 |    4 |    8 |
+| hispanic           |   18 |   22 |   22 |   16 |   16 |   13 |
+| white non hispanic |    2 |    4 |    1 |    1 |    1 |    1 |
+
+Popularity of ‘Olivia’ by ethnicity from 2011 to 2016
