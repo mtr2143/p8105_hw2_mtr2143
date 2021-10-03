@@ -50,3 +50,14 @@ precip_18_19_data <-
   bind_rows(precip_2018_data, precip_2019_data) %>% 
   mutate(month = month.name[month])
 ```
+
+###### Summary of Mr. Trash Wheel and precipitation datasets:
+
+There are 344 observations and 14 columns in the Mr. Trash Wheel dataset
+and 18 observations and 3 columns in the combined precipitation dataset.
+The Mr. Trash Wheel data tell us about the quantity of certain trash
+items such as plastic bottles, cigarette butts, glass bottles, grocery
+bags, chip bags, and sports balls. Meanwhile, the precipitation data
+tell us about the total rainfall (inches) per month for the years 2018
+and 2019. The median number of sports balls consumed by Mr. Trash Wheel
+is 8. The total inches of rainfall in 2018 was 70.33.
