@@ -217,3 +217,17 @@ kable(male_pop, caption = "Most popular NYC male baby name by ethnicity from 201
 | white non hispanic | michael | joseph | david  | joseph | david  | joseph |
 
 Most popular NYC male baby name by ethnicity from 2011 to 2016
+
+###### Creating a scatterplot of the number of children with a name against the rank in popularity of that name among white non-Hispanic children born in 2016:
+
+``` r
+white_2016_names <- baby_names %>% 
+  filter(ethnicity == "white non hispanic" & year_of_birth == 2016)
+  
+ggplot(white_2016_names, aes(x = rank, y = count)) + geom_point() +
+  ggtitle("Number of Children with a Name against Name's Rank in Popularity Among
+          White Non-Hispanic NYC Children Born in 2016") +
+  theme(plot.title = element_text(size = 12, hjust = 0.5))
+```
+
+![](hw2_files/figure-gfm/plot%20children%20name%20count%20vs%20name%20rank-1.png)<!-- -->
