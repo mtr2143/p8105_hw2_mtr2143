@@ -57,10 +57,10 @@ There are 344 observations and 14 columns in the Mr. Trash Wheel dataset
 and 18 observations and 3 columns in the combined precipitation dataset.
 The Mr. Trash Wheel data tell us about the quantity of certain trash
 items such as plastic bottles, cigarette butts, glass bottles, grocery
-bags, chip bags, and sports balls. Meanwhile, the precipitation data
-tell us about the total rainfall (inches) per month for the years 2018
-and 2019. The median number of sports balls consumed by Mr. Trash Wheel
-is 8. The total inches of rainfall in 2018 was 70.33.
+bags, chip bags, and sports balls. The median number of sports balls
+consumed by Mr. Trash Wheel is 8. Meanwhile, the precipitation data tell
+us about the total rainfall (inches) per month for the years 2018 and
+2019. The total inches of rainfall in 2018 was 70.33.
 
 # Problem 2
 
@@ -87,11 +87,13 @@ pol_months_data <- read_csv(file = "./Data/pols-month.csv") %>%
 
 ``` r
 snp_data <- read_csv(file = "./Data/snp.csv") %>% 
-  separate(date, into = c("day", "month", "year"), sep = "/", convert = T) %>% 
+  mutate(date = as.Date(date, "%m/%d/%y")) %>% 
+  separate(date, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
   mutate(month = month.name[month],
-        month = str_to_lower(month)) %>% 
-  select(-day) %>% 
-  relocate(year, .before = month)
+         month = str_to_lower(month),
+         year = ifelse(year > 2021, year - 100, year)
+        ) %>% 
+  select(-day)
 ```
 
 ###### Tidy the unemployment csv:
@@ -109,4 +111,13 @@ unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>%
     month = str_to_lower(month)
   ) %>% 
   janitor::clean_names()
+```
+
+###### Merge datasets:
+
+``` r
+pols_snp_unemp <- 
+  left_join(pol_months_data, snp_data, by = c("year", "month")) %>% 
+  left_join(unemployment_data, by = c("year", "month")) %>% 
+  rename(unemp_rate = rate)
 ```

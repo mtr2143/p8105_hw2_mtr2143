@@ -61,7 +61,7 @@ precip_18_19_data <-
 
 ###### Summary of Mr. Trash Wheel and precipitation datasets:
 
-There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The Mr. Trash Wheel data tell us about the quantity of certain trash items such as plastic bottles, cigarette butts, glass bottles, grocery bags, chip bags, and sports balls. Meanwhile, the precipitation data tell us about the total rainfall (inches) per month for the years `r min(pull(precip_18_19_data))` and `r max(pull(precip_18_19_data))`. The median number of sports balls consumed by Mr. Trash Wheel is `r median(pull(trash_data, sports_balls))`. The total inches of rainfall in 2018 was `r sum(pull(precip_2018_data, total))`.
+There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The Mr. Trash Wheel data tell us about the quantity of certain trash items such as plastic bottles, cigarette butts, glass bottles, grocery bags, chip bags, and sports balls. The median number of sports balls consumed by Mr. Trash Wheel is `r median(pull(trash_data, sports_balls))`. Meanwhile, the precipitation data tell us about the total rainfall (inches) per month for the years `r min(pull(precip_18_19_data))` and `r max(pull(precip_18_19_data))`.  The total inches of rainfall in 2018 was `r sum(pull(precip_2018_data, total))`.
 
 # Problem 2
 
@@ -90,11 +90,13 @@ pol_months_data <- read_csv(file = "./Data/pols-month.csv") %>%
 ```{r, read and clean snp, message=FALSE}
 
 snp_data <- read_csv(file = "./Data/snp.csv") %>% 
-  separate(date, into = c("day", "month", "year"), sep = "/", convert = T) %>% 
+  mutate(date = as.Date(date, "%m/%d/%y")) %>% 
+  separate(date, into = c("year", "month", "day"), sep = "-", convert = T) %>% 
   mutate(month = month.name[month],
-        month = str_to_lower(month)) %>% 
-  select(-day) %>% 
-  relocate(year, .before = month)
+         month = str_to_lower(month),
+         year = ifelse(year > 2021, year - 100, year)
+        ) %>% 
+  select(-day)
 
 ```
 
@@ -114,5 +116,15 @@ unemployment_data <- read_csv(file = "./Data/unemployment.csv") %>%
   ) %>% 
   janitor::clean_names()
 
+```
+
+###### Merge datasets:
+
+```{r, merge datasets, message=FALSE}
+
+pols_snp_unemp <- 
+  left_join(pol_months_data, snp_data, by = c("year", "month")) %>% 
+  left_join(unemployment_data, by = c("year", "month")) %>% 
+  rename(unemp_rate = rate)
 ```
 
