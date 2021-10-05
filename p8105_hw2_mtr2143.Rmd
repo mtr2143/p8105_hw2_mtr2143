@@ -61,7 +61,7 @@ precip_18_19_data <-
 
 ###### Summary of Mr. Trash Wheel and precipitation datasets:
 
-There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The median number of sports balls consumed by Mr. Trash Wheel is `r median(pull(trash_data, sports_balls))`. Key variables communicate type of trash Mr. Trash Wheel consumes, such as:
+There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The median number of sports balls consumed by Mr. Trash Wheel in 2019 is `r trash_data %>% filter(year == 2019) %>% summarise(median(sports_balls))`. Key variables communicate type of trash Mr. Trash Wheel consumes, such as:
 
 * `cigarette_butts`: number of cigarette butts
 * `glass_bottles`: number of glass bottles
