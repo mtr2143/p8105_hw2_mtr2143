@@ -139,7 +139,7 @@ pol_snp_unemp <-
 
 ###### Summary of datasets:
 
-The dataset from "pols-month" has provides information  about the number of republicans and democrats in congress as well the president's political party. The dataset from "snp" communicates the closing values of the Standard & Poor's stock market index. The dataset from "unemployment" gives the percent unemployed by month and year. After mergining "snp" and "unemployment" data into "pols-month" data, we have `r nrow(pol_snp_unemp)` observations with `r ncol(pol_months_data)` columns about national political party representation, the health of the stock market, and the unemployment percentage from `r min(pull(pol_snp_unemp, year))` to `r max(pull(pol_snp_unemp, year))`. Key variables include:
+The dataset from "pols-month" has provides information  about the number of republicans and democrats in congress as well the president's political party. The dataset from "snp" communicates the closing values of the Standard & Poor's stock market index. The dataset from "unemployment" gives the percent unemployed by month and year. After merging "snp" and "unemployment" data into "pols-month" data, we have `r nrow(pol_snp_unemp)` observations with `r ncol(pol_months_data)` columns about national political party representation, the health of the stock market, and the unemployment percentage from `r min(pull(pol_snp_unemp, year))` to `r max(pull(pol_snp_unemp, year))`. Key variables include:
 
 * `president`: indicates whether president at that time was republican (gop) or democrat (dem)
 * `close`: closing value of Standard & Poor's stock market index at that time
