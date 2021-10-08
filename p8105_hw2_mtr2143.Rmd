@@ -23,12 +23,13 @@ library(readr)
 ```{r, read in Mr. Trash Wheel sheet and clean, message=FALSE}
 
 trash_data <- 
-  read_excel("./Data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  read_excel("./Data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "Mr. Trash Wheel") %>% 
   janitor::clean_names() %>% 
   select(-x15, -x16, -x17) %>% 
   filter(!(str_detect(month, "Total"))) %>% 
-  mutate(sports_balls = round(sports_balls, 0))
+  mutate(sports_balls = round(sports_balls, 0), 
+         month = str_replace(month, "Decemeber", "December"))
 
 ```
 
@@ -41,14 +42,14 @@ trash_data <-
 ```{r, read and clean precipitation sheets}
 
 precip_2018_data <- 
-  read_excel("./Data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  read_excel("./Data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "2018 Precipitation", range = "A2:B14") %>% 
   janitor::clean_names() %>% 
   filter(!(is.na(total))) %>% 
   mutate(year = 2018)
 
 precip_2019_data <- 
-  read_excel("./Data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  read_excel("./Data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "2019 Precipitation", range = "A2:B14") %>%
   janitor::clean_names() %>% 
   filter(!(is.na(total))) %>% 
