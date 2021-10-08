@@ -45,14 +45,12 @@ precip_2018_data <-
   read_excel("./Data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "2018 Precipitation", range = "A2:B14") %>% 
   janitor::clean_names() %>% 
-  filter(!(is.na(total))) %>% 
   mutate(year = 2018)
 
 precip_2019_data <- 
   read_excel("./Data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "2019 Precipitation", range = "A2:B14") %>%
   janitor::clean_names() %>% 
-  filter(!(is.na(total))) %>% 
   mutate(year = 2019)
 
 precip_18_19_data <-
@@ -62,7 +60,7 @@ precip_18_19_data <-
 
 ###### Summary of Mr. Trash Wheel and precipitation datasets:
 
-There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset and `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The median number of sports balls consumed by Mr. Trash Wheel in 2019 is `r trash_data %>% filter(year == 2019) %>% summarise(median(sports_balls))`. Key variables communicate type of trash Mr. Trash Wheel consumes, such as:
+There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in the Mr. Trash Wheel dataset. The median number of sports balls consumed by Mr. Trash Wheel in 2019 is `r trash_data %>% filter(year == 2019) %>% summarise(median(sports_balls))`. Key variables communicate type of trash Mr. Trash Wheel consumes, such as:
 
 * `cigarette_butts`: number of cigarette butts
 * `glass_bottles`: number of glass bottles
@@ -70,7 +68,7 @@ There are `r nrow(trash_data)` observations and `r ncol(trash_data)` columns in 
 * `chip_bags`: number of bags of chips
 * `sports_balls`: number of sports balls
 
-Meanwhile, the precipitation data tell us about the total rainfall (inches) per month for the years `r min(pull(precip_18_19_data))` and `r max(pull(precip_18_19_data))`.  The total inches of rainfall in 2018 was `r sum(pull(precip_2018_data, total))`.
+Meanwhile, there are `r nrow(precip_18_19_data)` observations and `r ncol(precip_18_19_data)` columns in the combined precipitation dataset. The precipitation data tell us about the total rainfall (inches) per month for the years `r min(pull(precip_18_19_data))` and `r max(pull(precip_18_19_data))`.  The total inches of rainfall in 2018 was `r sum(pull(precip_2018_data, total))`.
 
 # Problem 2
 
