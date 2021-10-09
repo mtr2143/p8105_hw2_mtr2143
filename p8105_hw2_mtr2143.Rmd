@@ -184,7 +184,7 @@ olivia_pop <- baby_names %>%
   )
 
 library(knitr)
-kable(olivia_pop, caption = "Popularity of 'Olivia' for NYC babies by ethnicity from 2011 to 2016")
+kable(olivia_pop, caption = "Popularity of 'Olivia' for NYC babies by ethnicity, 2011 - 2016")
 
 ```
 
@@ -201,7 +201,7 @@ male_pop <- baby_names %>%
     values_from = "childs_first_name"
   ) 
 
-kable(male_pop, caption = "Most popular NYC male baby name by ethnicity from 2011 to 2016")
+kable(male_pop, caption = "Most popular NYC male baby name by ethnicity, 2011 - 2016")
 
 ```
 
